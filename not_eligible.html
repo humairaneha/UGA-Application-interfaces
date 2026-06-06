@@ -1,0 +1,734 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>UGA Application System</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: Arial, Helvetica, sans-serif;
+      background: #ffffff;
+      color: #222;
+      font-size: 13px;
+    }
+
+    .top-header {
+      min-height: 92px;
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      padding: 10px 22px 8px 22px;
+      background: #fff;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .logo-box {
+      width: 64px;
+      height: 64px;
+      border: 2px solid #f05a24;
+      color: #f05a24;
+      font-weight: bold;
+      font-size: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 4px;
+    }
+
+    .brand-title {
+      font-size: 22px;
+      font-weight: bold;
+      color: #333;
+      line-height: 1.1;
+    }
+
+    .brand-subtitle {
+      font-size: 16px;
+      font-style: italic;
+      font-weight: bold;
+      color: #ff5a1f;
+      margin-top: 2px;
+    }
+
+    .term-info {
+      text-align: right;
+      line-height: 1.8;
+      padding-top: 2px;
+      font-weight: bold;
+    }
+
+    .green {
+      color: #147a16;
+      letter-spacing: 1px;
+    }
+
+    .red {
+      color: #d96565;
+    }
+
+    .user-row {
+      margin-top: 6px;
+      color: #444;
+      font-weight: normal;
+    }
+
+    .logout-btn {
+      background: #f05a24;
+      color: #fff;
+      padding: 7px 14px;
+      border-radius: 3px;
+      text-decoration: none;
+      font-weight: bold;
+      margin-left: 6px;
+    }
+
+    .navbar {
+      background: #efefef;
+      border-bottom: 2px solid #ff9700;
+      padding: 0 22px;
+      display: flex;
+      gap: 0;
+      min-height: 43px;
+      align-items: stretch;
+    }
+
+    .navbar a {
+      text-decoration: none;
+      color: #444;
+      padding: 14px 16px 11px 16px;
+      display: flex;
+      align-items: center;
+      font-weight: bold;
+      border-bottom: 4px solid transparent;
+    }
+
+    .navbar a:hover,
+    .navbar a.active {
+      color: #f05a24;
+      border-bottom-color: #f05a24;
+      background: #f9f9f9;
+    }
+
+    .page-wrap {
+      padding: 14px 22px 0 22px;
+    }
+
+    .page-title {
+      font-size: 17px;
+      font-weight: bold;
+      margin-bottom: 6px;
+    }
+
+    .instruction {
+      margin-bottom: 10px;
+      color: #333;
+    }
+
+    .panel {
+      border: 1px solid #d6d6d6;
+      border-radius: 4px;
+      background: #fff;
+      margin-bottom: 10px;
+      padding: 10px;
+    }
+
+    .eligibility-panel {
+      border-color: #77c785;
+      background: #f8fff8;
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      padding: 12px 16px;
+    }
+
+    .check-icon {
+      width: 30px;
+      height: 30px;
+      border: 3px solid #148014;
+      color: #148014;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 19px;
+      font-weight: bold;
+      flex-shrink: 0;
+    }
+
+    .eligible-text strong {
+      margin-right: 12px;
+    }
+
+    .success-text {
+      color: #137a13;
+      font-weight: bold;
+    }
+
+    .note-text {
+      font-size: 11px;
+      margin-top: 6px;
+      color: #222;
+      font-weight: bold;
+    }
+
+    .not-eligible-panel {
+      border: 1px solid #e6a2a2;
+      background: #fff7f7;
+      color: #b00000;
+      padding: 14px 16px;
+      font-weight: bold;
+      margin-bottom: 10px;
+      border-radius: 4px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .not-eligible-icon {
+      width: 30px;
+      height: 30px;
+      border: 3px solid #b00000;
+      color: #b00000;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 19px;
+      font-weight: bold;
+      flex-shrink: 0;
+    }
+
+    .application-form {
+      display: block;
+    }
+
+    body[data-eligible="true"] .not-eligible-panel {
+      display: none;
+    }
+
+    body[data-eligible="false"] .eligibility-panel,
+    body[data-eligible="false"] .application-form {
+      display: none;
+    }
+
+    .filter-row {
+      display: grid;
+      grid-template-columns: 85px 180px 50px 180px 70px 180px 120px;
+      gap: 10px;
+      align-items: center;
+      padding: 10px 12px;
+    }
+
+    label {
+      font-weight: bold;
+      font-size: 12px;
+    }
+
+    select,
+    input[type="text"],
+    input[type="url"],
+    textarea {
+      width: 100%;
+      border: 1px solid #cfcfcf;
+      border-radius: 4px;
+      padding: 7px 9px;
+      font-size: 12px;
+      background: #fff;
+      color: #333;
+    }
+
+    textarea {
+      resize: vertical;
+      min-height: 62px;
+    }
+
+    .blue-btn {
+      background: linear-gradient(#1e96ff, #006de6);
+      border: 1px solid #0067c8;
+      color: #fff;
+      border-radius: 4px;
+      padding: 7px 18px;
+      font-weight: bold;
+      cursor: pointer;
+      font-size: 12px;
+    }
+
+    .section-title {
+      font-weight: bold;
+      font-size: 15px;
+      margin-bottom: 6px;
+    }
+
+    .table-scroll {
+      max-height: 190px;
+      overflow-y: auto;
+      border: 1px solid #bcbcbc;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 12px;
+    }
+
+    th {
+      background: #1e96e8;
+      color: #fff;
+      padding: 7px 8px;
+      border-right: 1px solid #7dbceb;
+      text-align: center;
+      font-weight: bold;
+      position: sticky;
+      top: 0;
+      z-index: 2;
+    }
+
+    td {
+      padding: 6px 8px;
+      border-right: 1px solid #c7c7c7;
+      border-bottom: 1px solid #c7c7c7;
+      background: #fff;
+      text-align: center;
+    }
+
+    td:nth-child(2) {
+      text-align: left;
+    }
+
+    tbody tr:nth-child(even) td {
+      background: #f4f4f4;
+    }
+
+    .apply-link {
+      color: #004bff;
+      text-decoration: none;
+      font-weight: bold;
+    }
+
+    .remove-link {
+      color: #e00000;
+      text-decoration: none;
+      font-weight: bold;
+    }
+
+    .disclaimer {
+      border: 1px solid #ffc862;
+      background: #fffaf0;
+      border-radius: 4px;
+      padding: 10px 13px;
+      margin-top: 9px;
+      display: flex;
+      gap: 10px;
+      align-items: center;
+      font-weight: bold;
+      color: #4b4b4b;
+      font-size: 12px;
+    }
+
+    .warn-icon {
+      color: #ff9700;
+      font-size: 21px;
+      line-height: 1;
+    }
+
+    .form-grid-4 {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr 1fr;
+      gap: 18px 28px;
+      margin-top: 10px;
+    }
+
+    .form-grid-2 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 28px;
+      margin-top: 10px;
+    }
+
+    .required {
+      color: #d40000;
+    }
+
+    .field label {
+      display: block;
+      margin-bottom: 5px;
+    }
+
+    .add-more-btn {
+      margin-top: 12px;
+      padding: 7px 13px;
+      border: 1px solid #1e86ff;
+      background: #fff;
+      color: #1e75e8;
+      border-radius: 4px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    .upload-row {
+      display: grid;
+      grid-template-columns: 220px 430px 1fr;
+      align-items: center;
+      gap: 12px;
+      margin-top: 10px;
+    }
+
+    .upload-box {
+      border: 1px solid #cfcfcf;
+      border-radius: 4px;
+      padding: 5px;
+      background: #fff;
+    }
+
+    .small-note {
+      color: #777;
+      font-style: italic;
+    }
+
+    .submit-area {
+      text-align: center;
+      padding: 6px 0 2px;
+    }
+
+    .submit-btn {
+      background: linear-gradient(#ff6a3a, #f23b14);
+      color: #fff;
+      border: 1px solid #e33311;
+      border-radius: 5px;
+      font-size: 14px;
+      font-weight: bold;
+      padding: 9px 34px;
+      cursor: pointer;
+      box-shadow: 0 1px 1px rgba(0,0,0,0.15);
+    }
+
+    .footer {
+      border-top: 2px solid #ff9700;
+      margin: 12px 22px 0 22px;
+      padding: 14px 0 18px;
+      text-align: center;
+      color: #666;
+      font-size: 12px;
+      line-height: 1.25;
+    }
+
+    .footer strong {
+      color: #555;
+    }
+
+    @media (max-width: 900px) {
+      .top-header,
+      .navbar {
+        padding-left: 12px;
+        padding-right: 12px;
+      }
+
+      .top-header {
+        flex-direction: column;
+        gap: 10px;
+      }
+
+      .term-info {
+        text-align: left;
+      }
+
+      .navbar {
+        overflow-x: auto;
+      }
+
+      .page-wrap {
+        padding-left: 12px;
+        padding-right: 12px;
+      }
+
+      .filter-row,
+      .form-grid-4,
+      .form-grid-2,
+      .upload-row {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body data-eligible="false">
+  <header class="top-header">
+    <div class="brand">
+      <div class="logo-box">UIU</div>
+      <div>
+        <div class="brand-title">United International University</div>
+        <div class="brand-subtitle">QUEST FOR EXCELLENCE</div>
+      </div>
+    </div>
+
+    <div class="term-info">
+      <div><span class="green">Current→</span> <span class="red">261 - Spring 2026 (Semester), 261 - Spring 2026 (Trimester)</span></div>
+      <div><span class="green">Registration→</span> <span class="red">262 - Summer 2026 (Trimester), 263 - Fall 2026 (Semester)</span></div>
+      <div class="user-row">HAN&nbsp; / <a href="#" class="logout-btn">Logout</a></div>
+    </div>
+  </header>
+
+  <nav class="navbar">
+    <a href="#">Home</a>
+    <a href="#">UCAM</a>
+    <a href="#" class="active">UGA Application</a>
+  </nav>
+
+  <main class="page-wrap">
+    <h1 class="page-title">UGA Application System :: Apply</h1>
+    <p class="instruction">Eligible students may apply for available UGA sections and submit supporting achievements.</p>
+
+    <!-- Show this block if student is eligible -->
+    <section class="eligibility-panel">
+      <div class="check-icon">✓</div>
+      <div class="eligible-text">
+        <div><strong>Eligibility Status:</strong> <span class="success-text">Eligible to apply for UGA.</span></div>
+        <div class="note-text">Only non-conflicting sections are displayed. Only courses where you achieved grade A / 4.00 are shown.</div>
+      </div>
+    </section>
+
+    <!-- Show this block if student is not eligible -->
+    <section class="not-eligible-panel">
+      <div class="not-eligible-icon">!</div>
+      <div>
+        <div>You are not eligible to apply for UGA at this time.</div>
+        <div class="note-text">The application form is hidden because the eligibility requirements are not met.</div>
+      </div>
+    </section>
+
+    <!-- Application form: visible only when body data-eligible="true" -->
+    <div class="application-form">
+    <section class="panel filter-row">
+      <label for="courseFilter">Course Code</label>
+      <select id="courseFilter">
+        <option>All</option>
+        <option>CSE 1115</option>
+        <option>CSE 1116</option>
+        <option>CSE 2118</option>
+        <option>CSE 2215</option>
+        <option>CSE 2216</option>
+        <option>CSE 3521</option>
+        <option>CSE 3522</option>
+      </select>
+
+      <label for="dayFilter">Day</label>
+      <select id="dayFilter">
+        <option>All</option>
+        <option>Sunday</option>
+        <option>Monday</option>
+        <option>Tuesday</option>
+        <option>Wednesday</option>
+        <option>Thursday</option>
+      </select>
+
+      <label for="timeFilter">Time Slot</label>
+      <select id="timeFilter">
+        <option>All</option>
+        <option>08:30 AM - 11:00 AM</option>
+        <option>11:10 AM - 01:40 PM</option>
+        <option>02:00 PM - 04:30 PM</option>
+      </select>
+
+      <button class="blue-btn">View / Filter</button>
+    </section>
+
+    <section class="panel">
+      <div class="section-title">Available UGA Sections</div>
+      <div class="table-scroll">
+        <table>
+          <thead>
+            <tr>
+              <th>Course Code</th>
+              <th>Course Title</th>
+              <th>Section</th>
+              <th>Day</th>
+              <th>Time Slot</th>
+              <th>Faculty</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>CSE 1115</td>
+              <td>Object Oriented Programming</td>
+              <td>A</td>
+              <td>Sunday</td>
+              <td>08:30 AM - 11:00 AM</td>
+              <td>Dr. Rahman</td>
+              <td><a class="apply-link" href="#">Click to Apply</a></td>
+            </tr>
+            <tr>
+              <td>CSE 1116</td>
+              <td>Object Oriented Programming Lab</td>
+              <td>B</td>
+              <td>Monday</td>
+              <td>11:10 AM - 01:40 PM</td>
+              <td>Ms. Sultana</td>
+              <td><a class="apply-link" href="#">Click to Apply</a></td>
+            </tr>
+            <tr>
+              <td>CSE 2118</td>
+              <td>Advanced Object Oriented Programming Lab</td>
+              <td>C</td>
+              <td>Wednesday</td>
+              <td>02:00 PM - 04:30 PM</td>
+              <td>Md. Karim</td>
+              <td><a class="apply-link" href="#">Click to Apply</a></td>
+            </tr>
+            <tr>
+              <td>CSE 2215</td>
+              <td>Data Structures and Algorithms I</td>
+              <td>A</td>
+              <td>Tuesday</td>
+              <td>08:30 AM - 11:00 AM</td>
+              <td>Dr. Hasan</td>
+              <td><a class="apply-link" href="#">Click to Apply</a></td>
+            </tr>
+            <tr>
+              <td>CSE 2216</td>
+              <td>Data Structures and Algorithms I Lab</td>
+              <td>D</td>
+              <td>Thursday</td>
+              <td>08:30 AM - 11:00 AM</td>
+              <td>Faculty Name</td>
+              <td><a class="apply-link" href="#">Click to Apply</a></td>
+            </tr>
+            <tr>
+              <td>CSE 3521</td>
+              <td>Database Management Systems</td>
+              <td>B</td>
+              <td>Monday</td>
+              <td>11:10 AM - 01:40 PM</td>
+              <td>Dr. Jahan</td>
+              <td><a class="remove-link" href="#">Click to Remove</a></td>
+            </tr>
+            <tr>
+              <td>CSE 3522</td>
+              <td>Database Management Systems Lab</td>
+              <td>BA</td>
+              <td>Tuesday</td>
+              <td>02:00 PM - 04:30 PM</td>
+              <td>Faculty Name</td>
+              <td><a class="apply-link" href="#">Click to Apply</a></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="disclaimer">
+        <div class="warn-icon">⚠</div>
+        <div>Students may apply to multiple UGA sections. Only sections that do not conflict with the student’s own class routine and only courses in which the student achieved grade A / 4.00 are shown.</div>
+      </div>
+    </section>
+
+    <section class="panel">
+      <div class="section-title">Project / Show Achievement</div>
+      <div class="form-grid-4">
+        <div class="field">
+          <label for="achievementTitle">Achievement / Project Title <span class="required">*</span></label>
+          <input type="text" id="achievementTitle" placeholder="Enter achievement or project title" />
+        </div>
+
+        <div class="field">
+          <label for="courseTitle">Course Title <span class="required">*</span></label>
+          <select id="courseTitle">
+            <option>Select Course</option>
+            <option>Object Oriented Programming</option>
+            <option>Object Oriented Programming Lab</option>
+            <option>Advanced Object Oriented Programming Lab</option>
+            <option>Data Structures and Algorithms I</option>
+            <option>Data Structures and Algorithms I Lab</option>
+            <option>Database Management Systems</option>
+            <option>Database Management Systems Lab</option>
+          </select>
+        </div>
+
+        <div class="field">
+          <label for="trimester">Trimester <span class="required">*</span></label>
+          <select id="trimester">
+            <option>Select Trimester</option>
+            <option>Spring 2026</option>
+            <option>Summer 2025</option>
+            <option>Fall 2025</option>
+          </select>
+        </div>
+
+        <div class="field">
+          <label for="role">Position / Rank / Role <span class="required">*</span></label>
+          <select id="role">
+            <option>Select Role</option>
+            <option>Champion</option>
+            <option>Runner-up</option>
+            <option>Top Performer</option>
+            <option>Team Leader</option>
+            <option>Developer</option>
+            <option>Research Contributor</option>
+            <option>Presenter</option>
+          </select>
+        </div>
+      </div>
+      <button class="add-more-btn">⊕ Add More</button>
+    </section>
+
+    <section class="panel">
+      <div class="section-title">Other Achievements</div>
+      <div class="field">
+        <label for="otherAchievements">Describe your other achievements (if any)</label>
+        <textarea id="otherAchievements" placeholder="Enter other achievements..."></textarea>
+      </div>
+    </section>
+
+    <section class="panel">
+      <div class="section-title">Certificate / Evidence Upload</div>
+      <div class="upload-row">
+        <label for="evidence">Upload Certificates or Evidence <span class="required">*</span></label>
+        <div class="upload-box"><input type="file" id="evidence" /></div>
+        <div class="small-note">Allowed file types: PDF, JPG, PNG (Max 5MB)</div>
+      </div>
+    </section>
+
+    <section class="panel">
+      <div class="section-title">Profile Links</div>
+      <div class="form-grid-2">
+        <div class="field">
+          <label for="github">GitHub Profile Link</label>
+          <input type="url" id="github" placeholder="https://github.com/yourusername" />
+        </div>
+        <div class="field">
+          <label for="linkedin">LinkedIn Profile Link</label>
+          <input type="url" id="linkedin" placeholder="https://www.linkedin.com/in/yourusername" />
+        </div>
+      </div>
+    </section>
+
+    <section class="panel submit-area">
+      <button class="submit-btn">✈ &nbsp; Submit Application</button>
+    </section>
+    </div>
+  </main>
+
+  <footer class="footer">
+    <div>Powered by</div>
+    <div><strong>Edusoft Consultants Ltd</strong></div>
+    <div><strong>Institutional Quality Assurance Cell, UIU</strong></div>
+    <div>Copyright © 2016 - 2018 Edusoft Consultants Ltd. All rights reserved.</div>
+  </footer>
+
+  <!--
+    Demo control:
+    Set body data-eligible="true" to show the application form.
+    Set body data-eligible="false" to show only the not-eligible message.
+    In the real UCAM system, this value should come from backend eligibility checking.
+  -->
+</body>
+</html>
