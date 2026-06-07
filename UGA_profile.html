@@ -1,0 +1,756 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>UGA Student Panel</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: Arial, Helvetica, sans-serif;
+      background: #ffffff;
+      color: #222;
+      font-size: 13px;
+    }
+
+    .top-header {
+      min-height: 92px;
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      padding: 10px 22px 8px 22px;
+      background: #fff;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .logo-box {
+      width: 64px;
+      height: 64px;
+      border: 2px solid #f05a24;
+      color: #f05a24;
+      font-weight: bold;
+      font-size: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 4px;
+    }
+
+    .brand-title {
+      font-size: 22px;
+      font-weight: bold;
+      color: #333;
+      line-height: 1.1;
+    }
+
+    .brand-subtitle {
+      font-size: 16px;
+      font-style: italic;
+      font-weight: bold;
+      color: #ff5a1f;
+      margin-top: 2px;
+    }
+
+    .term-info {
+      text-align: right;
+      line-height: 1.8;
+      padding-top: 2px;
+      font-weight: bold;
+    }
+
+    .green {
+      color: #147a16;
+      letter-spacing: 1px;
+    }
+
+    .red {
+      color: #d96565;
+    }
+
+    .user-row {
+      margin-top: 6px;
+      color: #444;
+      font-weight: normal;
+    }
+
+    .logout-btn {
+      background: #f05a24;
+      color: #fff;
+      padding: 7px 14px;
+      border-radius: 3px;
+      text-decoration: none;
+      font-weight: bold;
+      margin-left: 6px;
+    }
+
+    .navbar {
+      background: #efefef;
+      border-bottom: 2px solid #ff9700;
+      padding: 0 22px;
+      display: flex;
+      min-height: 43px;
+      align-items: stretch;
+    }
+
+    .navbar a {
+      text-decoration: none;
+      color: #444;
+      padding: 14px 16px 11px 16px;
+      display: flex;
+      align-items: center;
+      font-weight: bold;
+      border-bottom: 4px solid transparent;
+      white-space: nowrap;
+    }
+
+    .navbar a:hover,
+    .navbar a.active {
+      color: #f05a24;
+      border-bottom-color: #f05a24;
+      background: #f9f9f9;
+    }
+
+    .page-wrap {
+      padding: 14px 22px 0 22px;
+    }
+
+    .page-title {
+      font-size: 17px;
+      font-weight: bold;
+      margin-bottom: 6px;
+    }
+
+    .instruction {
+      margin-bottom: 10px;
+      color: #333;
+    }
+
+    .message-row {
+      border-top: 1px solid #ff9700;
+      border-bottom: 1px solid #ff9700;
+      padding: 5px 8px;
+      margin-bottom: 10px;
+      font-size: 12px;
+      background: #fffdf8;
+    }
+
+    .message-row strong {
+      margin-right: 8px;
+    }
+
+    .panel {
+      border: 1px solid #d6d6d6;
+      border-radius: 4px;
+      background: #fff;
+      margin-bottom: 10px;
+      padding: 10px;
+    }
+
+    .section-title {
+      font-weight: bold;
+      font-size: 15px;
+      margin-bottom: 4px;
+    }
+
+    .section-subtitle {
+      font-size: 12px;
+      margin-bottom: 8px;
+      color: #444;
+    }
+
+    .table-scroll {
+      max-height: 220px;
+      overflow: auto;
+      border: 1px solid #bcbcbc;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 12px;
+      min-width: 980px;
+    }
+
+    th {
+      background: #1e96e8;
+      color: #fff;
+      padding: 7px 8px;
+      border-right: 1px solid #7dbceb;
+      text-align: center;
+      font-weight: bold;
+      position: sticky;
+      top: 0;
+      z-index: 2;
+    }
+
+    td {
+      padding: 6px 8px;
+      border-right: 1px solid #c7c7c7;
+      border-bottom: 1px solid #c7c7c7;
+      background: #fff;
+      text-align: center;
+      vertical-align: middle;
+    }
+
+    tbody tr:nth-child(even) td {
+      background: #f4f4f4;
+    }
+
+    td.left-text,
+    td:nth-child(2) {
+      text-align: left;
+    }
+
+    label {
+      font-weight: bold;
+      font-size: 12px;
+      display: block;
+      margin-bottom: 5px;
+    }
+
+    select,
+    input[type="text"],
+    textarea {
+      width: 100%;
+      border: 1px solid #cfcfcf;
+      border-radius: 4px;
+      padding: 7px 9px;
+      font-size: 12px;
+      background: #fff;
+      color: #333;
+    }
+
+    textarea {
+      resize: vertical;
+      min-height: 65px;
+    }
+
+    .filter-row {
+      display: grid;
+      grid-template-columns: 90px 180px 90px 170px 70px 120px 120px 170px 120px;
+      gap: 10px;
+      align-items: center;
+      padding: 10px 0;
+    }
+
+    .form-grid-4 {
+      display: grid;
+      grid-template-columns: 1.4fr 1fr 1fr 1fr;
+      gap: 18px;
+      margin-top: 10px;
+    }
+
+    .form-grid-2 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 18px;
+      margin-top: 10px;
+    }
+
+    .field {
+      margin-bottom: 8px;
+    }
+
+    .blue-btn {
+      background: linear-gradient(#1e96ff, #006de6);
+      border: 1px solid #0067c8;
+      color: #fff;
+      border-radius: 4px;
+      padding: 7px 18px;
+      font-weight: bold;
+      cursor: pointer;
+      font-size: 12px;
+      text-decoration: none;
+      display: inline-block;
+      text-align: center;
+    }
+
+    .small-btn {
+      padding: 5px 14px;
+      font-size: 12px;
+    }
+
+    .summary-row {
+      border: 1px solid #d6d6d6;
+      background: #f8f8f8;
+      display: grid;
+      grid-template-columns: repeat(6, 1fr);
+      margin-bottom: 8px;
+      font-size: 12px;
+    }
+
+    .summary-item {
+      padding: 8px 10px;
+      border-right: 1px solid #d6d6d6;
+    }
+
+    .summary-item:last-child {
+      border-right: none;
+    }
+
+    .summary-item strong {
+      color: #333;
+    }
+
+    .small-note {
+      color: #777;
+      font-style: italic;
+      margin-top: 8px;
+      font-size: 12px;
+    }
+
+    .success-message,
+    .error-message {
+      display: none;
+      margin-top: 8px;
+      padding: 7px 10px;
+      border-radius: 3px;
+      font-weight: bold;
+      font-size: 12px;
+    }
+
+    .success-message {
+      border: 1px solid #75be75;
+      color: #137a13;
+      background: #f4fff4;
+    }
+
+    .error-message {
+      border: 1px solid #e6a2a2;
+      color: #b00000;
+      background: #fff7f7;
+    }
+
+    .footer {
+      border-top: 2px solid #ff9700;
+      margin: 12px 22px 0 22px;
+      padding: 14px 0 18px;
+      text-align: center;
+      color: #666;
+      font-size: 12px;
+      line-height: 1.25;
+    }
+
+    .footer strong {
+      color: #555;
+    }
+
+    @media (max-width: 950px) {
+      .top-header,
+      .navbar {
+        padding-left: 12px;
+        padding-right: 12px;
+      }
+
+      .top-header {
+        flex-direction: column;
+        gap: 10px;
+      }
+
+      .term-info {
+        text-align: left;
+      }
+
+      .navbar {
+        overflow-x: auto;
+      }
+
+      .page-wrap {
+        padding-left: 12px;
+        padding-right: 12px;
+      }
+
+      .filter-row,
+      .form-grid-4,
+      .form-grid-2,
+      .summary-row {
+        grid-template-columns: 1fr;
+      }
+
+      .summary-item {
+        border-right: none;
+        border-bottom: 1px solid #d6d6d6;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <header class="top-header">
+    <div class="brand">
+      <div class="logo-box">UIU</div>
+      <div>
+        <div class="brand-title">United International University</div>
+        <div class="brand-subtitle">QUEST FOR EXCELLENCE</div>
+      </div>
+    </div>
+
+    <div class="term-info">
+      <div>
+        <span class="green">Current→</span>
+        <span class="red">261 - Spring 2026 (Semester), 261 - Spring 2026 (Trimester)</span>
+      </div>
+      <div>
+        <span class="green">Registration→</span>
+        <span class="red">262 - Summer 2026 (Trimester), 263 - Fall 2026 (Semester)</span>
+      </div>
+      <div class="user-row">Student Name&nbsp; / <a href="#" class="logout-btn">Logout</a></div>
+    </div>
+  </header>
+
+  <nav class="navbar">
+    <a href="index.html">Home</a>
+    <a href="ucam.html">UCAM</a>
+    <a href="uga_application.html">UGA Application</a>
+    <a href="student_uga_interface.html" class="active">My UGA</a>
+  </nav>
+
+  <main class="page-wrap">
+    <h1 class="page-title">UGA Student Panel :: View</h1>
+    <p class="instruction">
+      Students can view assigned UGA sections, attendance, faculty details, messages, and department notices.
+    </p>
+
+    <div class="message-row">
+      <strong>Message:</strong>
+      Your UGA joining has been approved for CSE 3522 Lab Section B. Payment notice has been published by the department. Please check the Notice Board section.
+    </div>
+
+    <section class="panel">
+      <div class="section-title">Assigned UGA Sections</div>
+      <div class="section-subtitle">View your assigned courses, sections, time slots, room numbers, and faculty details.</div>
+
+      <div class="table-scroll">
+        <table>
+          <thead>
+            <tr>
+              <th>Course Code</th>
+              <th>Course Title</th>
+              <th>Section</th>
+              <th>Day</th>
+              <th>Time Slot</th>
+              <th>Room Number</th>
+              <th>Faculty Name</th>
+              <th>Faculty Email</th>
+              <th>Faculty Phone</th>
+              <th>Status</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>CSE 3522</td>
+              <td>Database Management Systems Lab</td>
+              <td>B</td>
+              <td>Monday</td>
+              <td>11:10 AM - 01:40 PM</td>
+              <td>Room 529</td>
+              <td>Dr. Hasan Mahmud</td>
+              <td>hasan@uiu.ac.bd</td>
+              <td>017XXXXXXXX</td>
+              <td>Approved</td>
+            </tr>
+            <tr>
+              <td>CSE 2521</td>
+              <td>Data Structures Lab</td>
+              <td>A</td>
+              <td>Wednesday</td>
+              <td>02:00 PM - 04:30 PM</td>
+              <td>Room 430</td>
+              <td>Ms. Nusrat Jahan</td>
+              <td>nusrat@uiu.ac.bd</td>
+              <td>018XXXXXXXX</td>
+              <td>Approved</td>
+            </tr>
+            <tr>
+              <td>CSE 1520</td>
+              <td>Programming Fundamentals Lab</td>
+              <td>C</td>
+              <td>Thursday</td>
+              <td>08:30 AM - 11:00 AM</td>
+              <td>Room 520</td>
+              <td>Mr. Rahim Ahmed</td>
+              <td>rahim@uiu.ac.bd</td>
+              <td>019XXXXXXXX</td>
+              <td>Pending Joining</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section class="panel">
+      <div class="section-title">UGA Attendance</div>
+      <div class="section-subtitle">View your attendance and working records for each assigned course.</div>
+
+      <div class="filter-row">
+        <label for="trimesterFilter">Trimester</label>
+        <select id="trimesterFilter">
+          <option>Spring 2026</option>
+          <option>Summer 2026</option>
+          <option>Fall 2026</option>
+        </select>
+
+        <label for="courseFilter">Course Code</label>
+        <select id="courseFilter">
+          <option>All</option>
+          <option>CSE 3522</option>
+          <option>CSE 2521</option>
+          <option>CSE 1520</option>
+        </select>
+
+        <label for="sectionFilter">Section</label>
+        <select id="sectionFilter">
+          <option>All</option>
+          <option>B</option>
+          <option>A</option>
+          <option>C</option>
+        </select>
+
+        <label for="statusFilter">Status</label>
+        <select id="statusFilter">
+          <option>All</option>
+          <option>Present</option>
+          <option>Late</option>
+          <option>Absent</option>
+          <option>Excused</option>
+        </select>
+
+        <button class="blue-btn">View / Filter</button>
+      </div>
+
+      <div class="summary-row">
+        <div class="summary-item"><strong>Total Assigned Courses:</strong> 2</div>
+        <div class="summary-item"><strong>Total Working Days:</strong> 8</div>
+        <div class="summary-item"><strong>Total Working Hours:</strong> 32</div>
+        <div class="summary-item"><strong>Present:</strong> 7</div>
+        <div class="summary-item"><strong>Late:</strong> 1</div>
+        <div class="summary-item"><strong>Absent:</strong> 0</div>
+      </div>
+
+      <div class="table-scroll">
+        <table>
+          <thead>
+            <tr>
+              <th>Date</th>
+              <th>Course Code</th>
+              <th>Course Title</th>
+              <th>Section</th>
+              <th>Start Time</th>
+              <th>End Time</th>
+              <th>Total Hours</th>
+              <th>Attendance Status</th>
+              <th>Faculty Remarks</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>May 15, 2026</td>
+              <td>CSE 3522</td>
+              <td>Database Management Systems Lab</td>
+              <td>B</td>
+              <td>09:00 AM</td>
+              <td>02:30 PM</td>
+              <td>5.5 Hours</td>
+              <td>Present</td>
+              <td class="left-text">Assisted students during lab practice</td>
+            </tr>
+            <tr>
+              <td>May 22, 2026</td>
+              <td>CSE 3522</td>
+              <td>Database Management Systems Lab</td>
+              <td>B</td>
+              <td>09:00 AM</td>
+              <td>01:00 PM</td>
+              <td>4 Hours</td>
+              <td>Present</td>
+              <td class="left-text">Helped with SQL query practice</td>
+            </tr>
+            <tr>
+              <td>May 29, 2026</td>
+              <td>CSE 2521</td>
+              <td>Data Structures Lab</td>
+              <td>A</td>
+              <td>02:00 PM</td>
+              <td>04:30 PM</td>
+              <td>2.5 Hours</td>
+              <td>Late</td>
+              <td class="left-text">Joined 10 minutes late</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section class="panel">
+      <div class="section-title">Messaging With Faculty</div>
+      <div class="section-subtitle">Communicate with faculty members of your assigned courses through UCAM.</div>
+
+      <div class="form-grid-2">
+        <div class="field">
+          <label for="assignedCourse">Select Assigned Course</label>
+          <select id="assignedCourse" onchange="fillFacultyName()">
+            <option value="">Select Course</option>
+            <option value="Dr. Hasan Mahmud">CSE 3522 - Database Management Systems Lab - Section B</option>
+            <option value="Ms. Nusrat Jahan">CSE 2521 - Data Structures Lab - Section A</option>
+            <option value="Mr. Rahim Ahmed">CSE 1520 - Programming Fundamentals Lab - Section C</option>
+          </select>
+        </div>
+
+        <div class="field">
+          <label for="facultyName">Faculty Name</label>
+          <input type="text" id="facultyName" placeholder="Auto-filled faculty name" readonly />
+        </div>
+      </div>
+
+      <div class="form-grid-2">
+        <div class="field">
+          <label for="messageSubject">Message Subject</label>
+          <input type="text" id="messageSubject" placeholder="Enter message subject" />
+        </div>
+
+        <div class="field">
+          <label>&nbsp;</label>
+          <button class="blue-btn" onclick="sendMessage()">Send Message</button>
+        </div>
+      </div>
+
+      <div class="field">
+        <label for="messageBody">Message Body</label>
+        <textarea id="messageBody" placeholder="Write your message to the faculty member..."></textarea>
+      </div>
+
+      <div class="small-note">Messages will be delivered through UCAM notification and email.</div>
+      <div id="messageSuccess" class="success-message">Message has been sent successfully.</div>
+      <div id="messageError" class="error-message">Please select a course and fill in the message subject and body.</div>
+
+      <div class="section-title" style="margin-top: 14px;">Message History</div>
+      <div class="table-scroll">
+        <table>
+          <thead>
+            <tr>
+              <th>Date</th>
+              <th>Course Code</th>
+              <th>Section</th>
+              <th>Faculty Name</th>
+              <th>Subject</th>
+              <th>Status</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>May 18, 2026</td>
+              <td>CSE 3522</td>
+              <td>B</td>
+              <td>Dr. Hasan Mahmud</td>
+              <td class="left-text">Lab support schedule confirmation</td>
+              <td>Sent</td>
+            </tr>
+            <tr>
+              <td>May 23, 2026</td>
+              <td>CSE 2521</td>
+              <td>A</td>
+              <td>Ms. Nusrat Jahan</td>
+              <td class="left-text">Attendance clarification</td>
+              <td>Replied</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section class="panel">
+      <div class="section-title">UGA Notice Board</div>
+      <div class="section-subtitle">View important notices published by the department.</div>
+
+      <div class="table-scroll">
+        <table>
+          <thead>
+            <tr>
+              <th>Notice Date</th>
+              <th>Notice Title</th>
+              <th>Notice Type</th>
+              <th>Published By</th>
+              <th>Details</th>
+              <th>Attachment</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>May 10, 2026</td>
+              <td class="left-text">UGA Joining Approval Published</td>
+              <td>Joining Approval</td>
+              <td>Department Office</td>
+              <td class="left-text">Selected UGAs are requested to check assigned sections and faculty details.</td>
+              <td><a href="#" class="blue-btn small-btn">View</a></td>
+            </tr>
+            <tr>
+              <td>May 25, 2026</td>
+              <td class="left-text">UGA Payment Processing Notice</td>
+              <td>Payment Notice</td>
+              <td>Department Office</td>
+              <td class="left-text">UGAs must verify attendance records before payment processing.</td>
+              <td><a href="#" class="blue-btn small-btn">View</a></td>
+            </tr>
+            <tr>
+              <td>June 05, 2026</td>
+              <td class="left-text">Final Attendance Submission Reminder</td>
+              <td>Attendance Notice</td>
+              <td>Department Office</td>
+              <td class="left-text">Faculty members will submit final attendance records to the Selection Committee.</td>
+              <td><a href="#" class="blue-btn small-btn">View</a></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div>Powered by</div>
+    <div><strong>Edusoft Consultants Ltd</strong></div>
+    <div><strong>Institutional Quality Assurance Cell, UIU</strong></div>
+    <div>Copyright © 2016 - 2018 Edusoft Consultants Ltd. All rights reserved.</div>
+  </footer>
+
+  <script>
+    function fillFacultyName() {
+      const selectedCourse = document.getElementById('assignedCourse');
+      const facultyName = document.getElementById('facultyName');
+      facultyName.value = selectedCourse.value;
+    }
+
+    function sendMessage() {
+      const assignedCourse = document.getElementById('assignedCourse').value;
+      const subject = document.getElementById('messageSubject').value.trim();
+      const body = document.getElementById('messageBody').value.trim();
+      const success = document.getElementById('messageSuccess');
+      const error = document.getElementById('messageError');
+
+      success.style.display = 'none';
+      error.style.display = 'none';
+
+      if (!assignedCourse || !subject || !body) {
+        error.style.display = 'block';
+        return;
+      }
+
+      success.style.display = 'block';
+      document.getElementById('messageSubject').value = '';
+      document.getElementById('messageBody').value = '';
+    }
+  </script>
+
+</body>
+</html>
