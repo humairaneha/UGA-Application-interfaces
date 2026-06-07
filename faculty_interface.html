@@ -4,124 +4,1011 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>UGA Management System :: Faculty Panel</title>
+
   <style>
-    *{box-sizing:border-box;margin:0;padding:0}
-    body{font-family:Arial,Helvetica,sans-serif;background:#fff;color:#222;font-size:13px}
-    .top-header{min-height:92px;display:flex;justify-content:space-between;align-items:flex-start;padding:10px 22px 8px;background:#fff}
-    .brand{display:flex;align-items:center;gap:10px}
-    .logo-box{width:64px;height:64px;border:2px solid #f05a24;color:#f05a24;font-weight:bold;font-size:20px;display:flex;align-items:center;justify-content:center;border-radius:4px}
-    .brand-title{font-size:22px;font-weight:bold;color:#333;line-height:1.1}.brand-subtitle{font-size:16px;font-style:italic;font-weight:bold;color:#ff5a1f;margin-top:2px}
-    .term-info{text-align:right;line-height:1.8;padding-top:2px;font-weight:bold}.green{color:#147a16;letter-spacing:1px}.red{color:#d96565}.user-row{margin-top:6px;color:#444;font-weight:normal}.logout-btn{background:#f05a24;color:#fff;padding:7px 14px;border-radius:3px;text-decoration:none;font-weight:bold;margin-left:6px}
-    .navbar{background:#efefef;border-bottom:2px solid #ff9700;padding:0 22px;display:flex;min-height:43px;align-items:stretch;overflow-x:auto}.navbar a{text-decoration:none;color:#444;padding:14px 14px 11px;display:flex;align-items:center;font-weight:bold;border-bottom:4px solid transparent;white-space:nowrap}.navbar a:hover,.navbar a.active{color:#f05a24;border-bottom-color:#f05a24;background:#f9f9f9}
-    .page-wrap{padding:14px 22px 0}.page-title{font-size:17px;font-weight:bold;margin-bottom:6px}.instruction{margin-bottom:10px;color:#333}.orange-line{height:2px;background:#ff9700;margin:8px 0 10px}
-    .message-row{border-top:1px solid #ff9700;border-bottom:1px solid #ff9700;background:#fffdf7;padding:7px 10px;margin-bottom:10px;display:flex;gap:8px;align-items:center}.message-row strong{color:#333}.message-row span{color:#c75b00;font-weight:bold}
-    .section{border:1px solid #d6d6d6;background:#fff;margin-bottom:12px;border-radius:4px}.section-title{font-size:15px;font-weight:bold;padding:8px 10px;border-bottom:1px solid #e0e0e0;background:#fff}.section-body{padding:10px}.section-note{font-size:12px;color:#444;font-weight:bold;margin-bottom:8px}
-    table{width:100%;border-collapse:collapse;font-size:12px}.table-scroll{overflow:auto;border:1px solid #bcbcbc;max-height:220px}th{background:#2798e4;color:#fff;padding:7px 8px;border:1px solid #8fc5ed;text-align:left;font-weight:bold;position:sticky;top:0;z-index:2}td{padding:6px 8px;border:1px solid #999;background:#fff;text-align:left}td.center,th.center{text-align:center}tbody tr:nth-child(even) td{background:#ededed}.selected-row td{background:#80c9ef!important}.action-link{border:none;background:none;font-weight:bold;cursor:pointer;color:#004bff;font-size:12px}.action-link:hover{text-decoration:underline}
-    label{font-weight:bold;font-size:12px;display:block;margin-bottom:5px}select,input[type="text"],input[type="date"],input[type="time"],textarea{width:100%;border:1px solid #cfcfcf;border-radius:3px;padding:6px 8px;font-size:12px;background:#fff;color:#333}input[readonly]{background:#f3f3f3;color:#555}textarea{resize:vertical;min-height:64px}.required{color:#d40000}
-    .form-grid-4{display:grid;grid-template-columns:1.3fr .9fr 1.4fr .6fr;gap:12px 18px}.form-grid-3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px 18px}.field{min-width:0}.full{grid-column:1/-1}.auto-note{font-size:11px;color:#666;margin-top:4px;font-style:italic}
-    .btn{border-radius:3px;padding:7px 15px;font-weight:bold;cursor:pointer;font-size:12px;border:1px solid #0067c8;background:linear-gradient(#1e96ff,#006de6);color:#fff}.btn-small{padding:5px 10px}.btn-row{margin-top:10px}.rating-row{display:flex;gap:12px;flex-wrap:wrap;align-items:center;padding-top:4px}.rating-row label{font-weight:normal;margin:0}.summary-row{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:10px}.summary-item{border:1px solid #cfcfcf;background:#fafafa;padding:8px;font-weight:bold}.success{display:none;margin-top:8px;border:1px solid #76bf76;background:#f6fff6;color:#137a13;padding:7px 9px;font-weight:bold}.error{display:none;margin-top:8px;border:1px solid #e09999;background:#fff7f7;color:#b00000;padding:7px 9px;font-weight:bold}.small-note{font-size:12px;color:#666;font-style:italic;margin-top:7px}
-    .footer{border-top:2px solid #ff9700;margin:14px 22px 0;padding:14px 0 18px;text-align:center;color:#666;font-size:12px;line-height:1.25}.footer strong{color:#555}
-    .modal-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.35);z-index:20;align-items:center;justify-content:center;padding:20px}.modal{width:560px;max-width:100%;background:#fff;border:1px solid #999;box-shadow:0 2px 8px rgba(0,0,0,.25)}.modal-title{background:#efefef;border-bottom:2px solid #ff9700;padding:8px 10px;font-weight:bold}.modal-body{padding:12px}.modal-row{margin-bottom:10px}.modal-actions{text-align:right;margin-top:10px}.btn-cancel{background:#f2f2f2;color:#333;border:1px solid #999;margin-right:6px}.close-x{float:right;cursor:pointer;color:#f05a24;font-weight:bold}
-    @media(max-width:1000px){.top-header{flex-direction:column;gap:10px}.term-info{text-align:left}.page-wrap,.top-header,.navbar{padding-left:12px;padding-right:12px}.form-grid-4,.form-grid-3,.summary-row{grid-template-columns:1fr}.navbar a{padding-left:10px;padding-right:10px}}
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: Arial, Helvetica, sans-serif;
+      background: #ffffff;
+      color: #222;
+      font-size: 13px;
+    }
+
+    .top-header {
+      min-height: 92px;
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      padding: 10px 22px 8px;
+      background: #fff;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .logo-box {
+      width: 64px;
+      height: 64px;
+      border: 2px solid #f05a24;
+      color: #f05a24;
+      font-weight: bold;
+      font-size: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 4px;
+    }
+
+    .brand-title {
+      font-size: 22px;
+      font-weight: bold;
+      color: #333;
+      line-height: 1.1;
+    }
+
+    .brand-subtitle {
+      font-size: 16px;
+      font-style: italic;
+      font-weight: bold;
+      color: #ff5a1f;
+      margin-top: 2px;
+    }
+
+    .term-info {
+      text-align: right;
+      line-height: 1.8;
+      padding-top: 2px;
+      font-weight: bold;
+    }
+
+    .green {
+      color: #147a16;
+      letter-spacing: 1px;
+    }
+
+    .red {
+      color: #d96565;
+    }
+
+    .user-row {
+      margin-top: 6px;
+      color: #444;
+      font-weight: normal;
+    }
+
+    .logout-btn {
+      background: #f05a24;
+      color: #fff;
+      padding: 7px 14px;
+      border-radius: 3px;
+      text-decoration: none;
+      font-weight: bold;
+      margin-left: 6px;
+    }
+
+    .navbar {
+      background: #efefef;
+      border-bottom: 2px solid #ff9700;
+      padding: 0 22px;
+      display: flex;
+      min-height: 43px;
+      align-items: stretch;
+      overflow-x: auto;
+    }
+
+    .navbar a {
+      text-decoration: none;
+      color: #444;
+      padding: 14px 14px 11px;
+      display: flex;
+      align-items: center;
+      font-weight: bold;
+      border-bottom: 4px solid transparent;
+      white-space: nowrap;
+    }
+
+    .navbar a:hover,
+    .navbar a.active {
+      color: #f05a24;
+      border-bottom-color: #f05a24;
+      background: #f9f9f9;
+    }
+
+    .page-wrap {
+      padding: 18px 28px 0;
+      max-width: 1380px;
+      margin: 0 auto;
+    }
+
+    .page-title {
+      font-size: 17px;
+      font-weight: bold;
+      margin-bottom: 6px;
+    }
+
+    .instruction {
+      margin-bottom: 10px;
+      color: #333;
+    }
+
+    .message-row {
+      border-top: 1px solid #ff9700;
+      border-bottom: 1px solid #ff9700;
+      background: #fffdf7;
+      padding: 9px 12px;
+      margin-bottom: 16px;
+      display: flex;
+      gap: 8px;
+      align-items: center;
+    }
+
+    .message-row strong {
+      color: #333;
+    }
+
+    .message-row span {
+      color: #c75b00;
+      font-weight: bold;
+    }
+
+    .section {
+      border: 1px solid #d6d6d6;
+      background: #fff;
+      margin-bottom: 18px;
+      border-radius: 4px;
+    }
+
+    .section-title {
+      font-size: 15px;
+      font-weight: bold;
+      padding: 10px 12px;
+      border-bottom: 1px solid #e0e0e0;
+      background: #f9f9f9;
+    }
+
+    .section-body {
+      padding: 14px 16px;
+    }
+
+    .section-note {
+      font-size: 12px;
+      color: #444;
+      font-weight: bold;
+      margin-bottom: 10px;
+    }
+
+    .table-scroll {
+      overflow: auto;
+      border: 1px solid #bcbcbc;
+      max-height: 320px;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 12px;
+    }
+
+    th {
+      background: #2798e4;
+      color: #fff;
+      padding: 9px 10px;
+      border: 1px solid #8fc5ed;
+      text-align: left;
+      font-weight: bold;
+      position: sticky;
+      top: 0;
+      z-index: 2;
+      white-space: nowrap;
+    }
+
+    td {
+      padding: 8px 10px;
+      border: 1px solid #999;
+      background: #fff;
+      text-align: left;
+      vertical-align: middle;
+    }
+
+    td.center,
+    th.center {
+      text-align: center;
+    }
+
+    tbody tr:nth-child(even) td {
+      background: #ededed;
+    }
+
+    .action-link {
+      border: none;
+      background: none;
+      font-weight: bold;
+      cursor: pointer;
+      color: #004bff;
+      font-size: 12px;
+      text-decoration: none;
+    }
+
+    .action-link:hover {
+      text-decoration: underline;
+    }
+
+    label {
+      font-weight: bold;
+      font-size: 12px;
+      display: block;
+      margin-bottom: 5px;
+    }
+
+    select,
+    input[type="text"],
+    input[type="date"],
+    input[type="time"],
+    textarea {
+      width: 100%;
+      border: 1px solid #cfcfcf;
+      border-radius: 3px;
+      padding: 8px 9px;
+      font-size: 12px;
+      background: #fff;
+      color: #333;
+      min-height: 34px;
+    }
+
+    input[readonly] {
+      background: #f3f3f3;
+      color: #555;
+    }
+
+    textarea {
+      resize: vertical;
+      min-height: 90px;
+    }
+
+    .required {
+      color: #d40000;
+    }
+
+    .form-grid-4 {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 16px 24px;
+      align-items: end;
+    }
+
+    .form-grid-3 {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 16px 24px;
+      align-items: end;
+    }
+
+    .field {
+      min-width: 0;
+    }
+
+    .full {
+      grid-column: 1 / -1;
+    }
+
+    .auto-note {
+      font-size: 11px;
+      color: #666;
+      margin-top: 4px;
+      font-style: italic;
+    }
+
+    .btn {
+      border-radius: 3px;
+      padding: 7px 15px;
+      font-weight: bold;
+      cursor: pointer;
+      font-size: 12px;
+      border: 1px solid #0067c8;
+      background: linear-gradient(#1e96ff, #006de6);
+      color: #fff;
+    }
+
+    .btn-small {
+      padding: 5px 10px;
+    }
+
+    .btn-row {
+      margin-top: 12px;
+    }
+
+    .rating-row {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+      align-items: center;
+      padding-top: 4px;
+    }
+
+    .rating-row label {
+      font-weight: normal;
+      margin: 0;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .summary-row {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 12px;
+      margin-bottom: 14px;
+    }
+
+    .summary-item {
+      border: 1px solid #cfcfcf;
+      background: #fafafa;
+      padding: 10px 12px;
+      font-weight: bold;
+    }
+
+    .success {
+      display: none;
+      margin-top: 8px;
+      border: 1px solid #76bf76;
+      background: #f6fff6;
+      color: #137a13;
+      padding: 7px 9px;
+      font-weight: bold;
+    }
+
+    .error {
+      display: none;
+      margin-top: 8px;
+      border: 1px solid #e09999;
+      background: #fff7f7;
+      color: #b00000;
+      padding: 7px 9px;
+      font-weight: bold;
+    }
+
+    .small-note {
+      font-size: 12px;
+      color: #666;
+      font-style: italic;
+      margin-top: 7px;
+    }
+
+    .footer {
+      border-top: 2px solid #ff9700;
+      margin: 14px 22px 0;
+      padding: 14px 0 18px;
+      text-align: center;
+      color: #666;
+      font-size: 12px;
+      line-height: 1.25;
+    }
+
+    .footer strong {
+      color: #555;
+    }
+
+    .modal-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, .35);
+      z-index: 20;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+
+    .modal {
+      width: 620px;
+      max-width: 100%;
+      background: #fff;
+      border: 1px solid #999;
+      box-shadow: 0 2px 8px rgba(0,0,0,.25);
+    }
+
+    .modal-title {
+      background: #efefef;
+      border-bottom: 2px solid #ff9700;
+      padding: 8px 10px;
+      font-weight: bold;
+    }
+
+    .modal-body {
+      padding: 12px;
+    }
+
+    .modal-row {
+      margin-bottom: 10px;
+    }
+
+    .modal-actions {
+      text-align: right;
+      margin-top: 10px;
+    }
+
+    .btn-cancel {
+      background: #f2f2f2;
+      color: #333;
+      border: 1px solid #999;
+      margin-right: 6px;
+    }
+
+    .close-x {
+      float: right;
+      cursor: pointer;
+      color: #f05a24;
+      font-weight: bold;
+    }
+
+    @media(max-width: 1000px) {
+      .top-header {
+        flex-direction: column;
+        gap: 10px;
+      }
+
+      .term-info {
+        text-align: left;
+      }
+
+      .page-wrap,
+      .top-header,
+      .navbar {
+        padding-left: 12px;
+        padding-right: 12px;
+      }
+
+      .form-grid-4,
+      .form-grid-3,
+      .summary-row {
+        grid-template-columns: 1fr;
+      }
+
+      .navbar a {
+        padding-left: 10px;
+        padding-right: 10px;
+      }
+
+      .table-scroll {
+        max-height: 360px;
+      }
+    }
   </style>
 </head>
+
 <body>
   <header class="top-header">
-    <div class="brand"><div class="logo-box">UIU</div><div><div class="brand-title">United International University</div><div class="brand-subtitle">QUEST FOR EXCELLENCE</div></div></div>
-    <div class="term-info"><div><span class="green">Current→</span> <span class="red">261 - Spring 2026 (Semester), 261 - Spring 2026 (Trimester)</span></div><div><span class="green">Registration→</span> <span class="red">262 - Summer 2026 (Trimester), 263 - Fall 2026 (Semester)</span></div><div class="user-row">HAN / <a href="#" class="logout-btn">Logout</a></div></div>
+    <div class="brand">
+      <div class="logo-box">UIU</div>
+      <div>
+        <div class="brand-title">United International University</div>
+        <div class="brand-subtitle">QUEST FOR EXCELLENCE</div>
+      </div>
+    </div>
+
+    <div class="term-info">
+      <div>
+        <span class="green">Current→</span>
+        <span class="red">261 - Spring 2026 (Semester), 261 - Spring 2026 (Trimester)</span>
+      </div>
+      <div>
+        <span class="green">Registration→</span>
+        <span class="red">262 - Summer 2026 (Trimester), 263 - Fall 2026 (Semester)</span>
+      </div>
+      <div class="user-row">HAN / <a href="#" class="logout-btn">Logout</a></div>
+    </div>
   </header>
-  <nav class="navbar"><a href="index.html">Home</a><a href="ucam.html">UCAM</a><a href="#">IQAC</a><a href="#">Course File</a><a href="#">Faculty Performance</a><a href="faculty_interface.html" class="active">My UGA Management</a></nav>
+
+  <nav class="navbar">
+    <a href="index.html">Home</a>
+    <a href="ucam.html">UCAM</a>
+    <a href="#">IQAC</a>
+    <a href="#">Course File</a>
+    <a href="#">Faculty Performance</a>
+    <a href="faculty_interface.html" class="active">UGA Management</a>
+  </nav>
+
   <main class="page-wrap">
     <h1 class="page-title">UGA Management System :: Faculty Panel</h1>
-    <p class="instruction">Faculty members can manage assigned UGAs, record attendance, submit feedback, and communicate with students.</p>
-    <div class="orange-line"></div>
-    <div class="message-row"><strong>Message:</strong><span>New UGA assigned: CSE 3522 Lab Section B - Student: Aisha Rahman</span></div>
+    <p class="instruction">
+      Faculty members can manage assigned UGAs, record attendance, submit feedback, and communicate with students.
+    </p>
 
-    <section class="section"><div class="section-title">Assigned UGA List</div><div class="section-body"><div class="table-scroll"><table><thead><tr><th class="center">Student Name</th><th class="center">Student ID</th><th class="center">Trimester</th><th class="center">Course Code</th><th>Course Title</th><th class="center">Section</th><th>Contact Information</th><th class="center">Action</th></tr></thead><tbody><tr><td>Aisha Rahman</td><td>22-CS-10145</td><td>Spring 2026</td><td>CSE 3522</td><td>Database Management Systems Lab</td><td class="center">B</td><td>aisha.rahman@ucam.edu, 011-23456789</td><td class="center"><button class="btn btn-small message-btn" data-name="Aisha Rahman" data-id="22-CS-10145" data-code="CSE 3522" data-title="Database Management Systems Lab" data-section="B">Message</button></td></tr><tr><td>Aisha Rahman</td><td>22-CS-10145</td><td>Spring 2026</td><td>CSE 1116</td><td>Object Oriented Programming Lab</td><td class="center">A</td><td>aisha.rahman@ucam.edu, 011-23456789</td><td class="center"><button class="btn btn-small message-btn" data-name="Aisha Rahman" data-id="22-CS-10145" data-code="CSE 1116" data-title="Object Oriented Programming Lab" data-section="A">Message</button></td></tr><tr><td>Bilal Khan</td><td>22-CS-10178</td><td>Spring 2026</td><td>CSE 2521</td><td>Data Structures Lab</td><td class="center">A</td><td>bilal.khan@ucam.edu, 011-34567890</td><td class="center"><button class="btn btn-small message-btn" data-name="Bilal Khan" data-id="22-CS-10178" data-code="CSE 2521" data-title="Data Structures Lab" data-section="A">Message</button></td></tr><tr><td>Maria Shah</td><td>23-CS-10221</td><td>Spring 2026</td><td>CSE 1520</td><td>Programming Fundamentals Lab</td><td class="center">C</td><td>maria.shah@ucam.edu, 011-45678901</td><td class="center"><button class="btn btn-small message-btn" data-name="Maria Shah" data-id="23-CS-10221" data-code="CSE 1520" data-title="Programming Fundamentals Lab" data-section="C">Message</button></td></tr></tbody></table></div></div></section>
+    <div class="message-row">
+      <strong>Message:</strong>
+      <span>New UGA assigned: CSE 3522 Lab Section B - Student: Aisha Rahman</span>
+    </div>
 
-    <section class="section"><div class="section-title">UGA Attendance Entry</div><div class="section-body"><p class="section-note">Record working hours and attendance for assigned UGAs. Select the specific UGA assignment; course code, course title, and section will be filled automatically.</p><form id="attendanceForm"><div class="form-grid-4"><div class="field"><label>Select UGA Assignment <span class="required">*</span></label><select id="attUga" required><option value="">Select UGA Assignment</option><option value="aisha-dbms">Aisha Rahman (22-CS-10145) - CSE 3522 - DBMS Lab - Section B</option><option value="aisha-oop">Aisha Rahman (22-CS-10145) - CSE 1116 - OOP Lab - Section A</option><option value="bilal-ds">Bilal Khan (22-CS-10178) - CSE 2521 - Data Structures Lab - Section A</option><option value="maria-pf">Maria Shah (23-CS-10221) - CSE 1520 - Programming Fundamentals Lab - Section C</option></select><div class="auto-note">Select one assignment. This avoids confusion if the same UGA works for multiple sections.</div></div><div class="field"><label>Course Code</label><input id="attCode" type="text" readonly placeholder="Auto-filled"></div><div class="field"><label>Course Title</label><input id="attTitle" type="text" readonly placeholder="Auto-filled"></div><div class="field"><label>Section</label><input id="attSection" type="text" readonly placeholder="Auto"></div><div class="field"><label>Working Date <span class="required">*</span></label><input type="date" required></div><div class="field"><label>Start Time <span class="required">*</span></label><input type="time" required></div><div class="field"><label>End Time <span class="required">*</span></label><input type="time" required></div><div class="field"><label>Attendance Status <span class="required">*</span></label><select required><option value="">Select Status</option><option>Present</option><option>Absent</option><option>Late</option><option>Excused</option></select></div><div class="field full"><label>Remarks</label><input type="text" placeholder="Add any remarks..."></div></div><div class="btn-row"><button class="btn" type="submit">Add Attendance</button></div><div class="success">Attendance record has been added successfully.</div><div class="error">Please fill all required attendance fields.</div></form></div></section>
+    <section class="section">
+      <div class="section-title">Assigned UGA List</div>
+      <div class="section-body">
+        <div class="section-note">
+          Faculty members can view UGAs assigned to their courses and send messages from the Action column.
+        </div>
 
-    <section class="section"><div class="section-title">UGA Feedback / Evaluation</div><div class="section-body"><p class="section-note">Submit end-of-trimester feedback. Select the specific UGA assignment; course code, course title, and section will be filled automatically.</p><form id="feedbackForm"><div class="form-grid-4"><div class="field"><label>Select UGA Assignment <span class="required">*</span></label><select id="fbUga" required><option value="">Select UGA Assignment</option><option value="aisha-dbms">Aisha Rahman (22-CS-10145) - CSE 3522 - DBMS Lab - Section B</option><option value="aisha-oop">Aisha Rahman (22-CS-10145) - CSE 1116 - OOP Lab - Section A</option><option value="bilal-ds">Bilal Khan (22-CS-10178) - CSE 2521 - Data Structures Lab - Section A</option><option value="maria-pf">Maria Shah (23-CS-10221) - CSE 1520 - Programming Fundamentals Lab - Section C</option></select><div class="auto-note">Select one assignment. This avoids confusion if the same UGA works for multiple sections.</div></div><div class="field"><label>Course Code</label><input id="fbCode" type="text" readonly placeholder="Auto-filled"></div><div class="field"><label>Course Title</label><input id="fbTitle" type="text" readonly placeholder="Auto-filled"></div><div class="field"><label>Section</label><input id="fbSection" type="text" readonly placeholder="Auto"></div><div class="field"><label>Trimester <span class="required">*</span></label><select required><option value="">Select Trimester</option><option>Spring 2026</option><option>Summer 2026</option><option>Fall 2026</option></select></div><div class="field full"><label>Performance Rating <span class="required">*</span></label><div class="rating-row"><label><input type="radio" name="rating" required> 1 - Poor</label><label><input type="radio" name="rating"> 2 - Fair</label><label><input type="radio" name="rating"> 3 - Good</label><label><input type="radio" name="rating"> 4 - Very Good</label><label><input type="radio" name="rating"> 5 - Excellent</label></div></div><div class="field full"><label>Remarks / Recommendation <span class="required">*</span></label><textarea required placeholder="Share your feedback and recommendations for this UGA..."></textarea></div></div><div class="btn-row"><button class="btn" type="submit">Submit Feedback</button></div><div class="success">Feedback has been submitted successfully.</div><div class="error">Please fill all required feedback fields.</div></form></div></section>
+        <div class="table-scroll">
+          <table>
+            <thead>
+              <tr>
+                <th>Student Name</th>
+                <th>Student ID</th>
+                <th>Trimester</th>
+                <th>Course Code</th>
+                <th>Course Title</th>
+                <th class="center">Section</th>
+                <th>Contact Information</th>
+                <th class="center">Action</th>
+              </tr>
+            </thead>
 
-    <section class="section"><div class="section-title">Send Records to Selection Committee</div><div class="section-body"><p class="section-note">Forward attendance records, performance ratings, and recommendations to the Selection Committee.</p><div class="summary-row"><div class="summary-item">Total Assigned UGA Assignments: 4</div><div class="summary-item">Attendance Records Submitted: 35</div><div class="summary-item">Feedback Submitted: 3</div><div class="summary-item">Pending Feedback: 1</div></div><div class="table-scroll"><table><thead><tr><th>Student Name</th><th>Student ID</th><th>Course Code</th><th>Course Title</th><th class="center">Section</th><th>Attendance Status Summary</th><th>Performance Rating</th><th>Recommendation Status</th></tr></thead><tbody><tr><td>Aisha Rahman</td><td>22-CS-10145</td><td>CSE 3522</td><td>Database Management Systems Lab</td><td class="center">B</td><td>12 Present, 1 Late</td><td>4 - Very Good</td><td>Recommended</td></tr><tr><td>Aisha Rahman</td><td>22-CS-10145</td><td>CSE 1116</td><td>Object Oriented Programming Lab</td><td class="center">A</td><td>8 Present</td><td>5 - Excellent</td><td>Strongly Recommended</td></tr><tr><td>Bilal Khan</td><td>22-CS-10178</td><td>CSE 2521</td><td>Data Structures Lab</td><td class="center">A</td><td>10 Present, 2 Absent</td><td>3 - Good</td><td>Under Review</td></tr><tr><td>Maria Shah</td><td>23-CS-10221</td><td>CSE 1520</td><td>Programming Fundamentals Lab</td><td class="center">C</td><td>13 Present</td><td>5 - Excellent</td><td>Strongly Recommended</td></tr></tbody></table></div><div class="btn-row"><button class="btn" id="committeeBtn">Send to Selection Committee</button></div><div class="success" id="committeeSuccess">UGA records have been successfully sent to the Selection Committee.</div></div></section>
+            <tbody>
+              <tr>
+                <td>Aisha Rahman</td>
+                <td>22-CS-10145</td>
+                <td>Spring 2026</td>
+                <td>CSE 3522</td>
+                <td>Database Management Systems Lab</td>
+                <td class="center">B</td>
+                <td>aisha.rahman@ucam.edu, 011-23456789</td>
+                <td class="center">
+                  <button class="action-link" onclick="openMessageModal('Aisha Rahman','22-CS-10145','CSE 3522','Database Management Systems Lab','B')">Message</button>
+                </td>
+              </tr>
+
+              <tr>
+                <td>Aisha Rahman</td>
+                <td>22-CS-10145</td>
+                <td>Spring 2026</td>
+                <td>CSE 1116</td>
+                <td>Object Oriented Programming Lab</td>
+                <td class="center">A</td>
+                <td>aisha.rahman@ucam.edu, 011-23456789</td>
+                <td class="center">
+                  <button class="action-link" onclick="openMessageModal('Aisha Rahman','22-CS-10145','CSE 1116','Object Oriented Programming Lab','A')">Message</button>
+                </td>
+              </tr>
+
+              <tr>
+                <td>Bilal Khan</td>
+                <td>22-CS-10178</td>
+                <td>Spring 2026</td>
+                <td>CSE 2521</td>
+                <td>Data Structures Lab</td>
+                <td class="center">A</td>
+                <td>bilal.khan@ucam.edu, 011-34567890</td>
+                <td class="center">
+                  <button class="action-link" onclick="openMessageModal('Bilal Khan','22-CS-10178','CSE 2521','Data Structures Lab','A')">Message</button>
+                </td>
+              </tr>
+
+              <tr>
+                <td>Maria Shah</td>
+                <td>23-CS-10221</td>
+                <td>Spring 2026</td>
+                <td>CSE 1520</td>
+                <td>Programming Fundamentals Lab</td>
+                <td class="center">C</td>
+                <td>maria.shah@ucam.edu, 011-45678901</td>
+                <td class="center">
+                  <button class="action-link" onclick="openMessageModal('Maria Shah','23-CS-10221','CSE 1520','Programming Fundamentals Lab','C')">Message</button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="section-title">UGA Attendance Entry</div>
+      <div class="section-body">
+        <div class="section-note">
+          Record working hours and attendance for assigned UGAs. Select the full UGA assignment to avoid confusion when the same UGA works in multiple sections.
+        </div>
+
+        <div class="form-grid-4">
+          <div class="field full">
+            <label for="attendanceAssignment">Select UGA Assignment <span class="required">*</span></label>
+            <select id="attendanceAssignment" onchange="fillAttendanceInfo()">
+              <option value="">Select Assignment</option>
+              <option value="aisha-dbms">Aisha Rahman (22-CS-10145) - CSE 3522 - Database Management Systems Lab - Section B</option>
+              <option value="aisha-oop">Aisha Rahman (22-CS-10145) - CSE 1116 - Object Oriented Programming Lab - Section A</option>
+              <option value="bilal-ds">Bilal Khan (22-CS-10178) - CSE 2521 - Data Structures Lab - Section A</option>
+              <option value="maria-pf">Maria Shah (23-CS-10221) - CSE 1520 - Programming Fundamentals Lab - Section C</option>
+            </select>
+            <div class="auto-note">Course Code, Course Title, and Section will be auto-filled after selecting the assignment.</div>
+          </div>
+
+          <div class="field">
+            <label for="attCourseCode">Course Code</label>
+            <input type="text" id="attCourseCode" readonly />
+          </div>
+
+          <div class="field">
+            <label for="attCourseTitle">Course Title</label>
+            <input type="text" id="attCourseTitle" readonly />
+          </div>
+
+          <div class="field">
+            <label for="attSection">Section</label>
+            <input type="text" id="attSection" readonly />
+          </div>
+
+          <div class="field">
+            <label for="workingDate">Working Date <span class="required">*</span></label>
+            <input type="date" id="workingDate" />
+          </div>
+
+          <div class="field">
+            <label for="startTime">Start Time <span class="required">*</span></label>
+            <input type="time" id="startTime" />
+          </div>
+
+          <div class="field">
+            <label for="endTime">End Time <span class="required">*</span></label>
+            <input type="time" id="endTime" />
+          </div>
+
+          <div class="field">
+            <label for="attendanceStatus">Attendance Status <span class="required">*</span></label>
+            <select id="attendanceStatus">
+              <option value="">Select Status</option>
+              <option>Present</option>
+              <option>Absent</option>
+              <option>Late</option>
+              
+            </select>
+          </div>
+
+          <div class="field full">
+            <label for="attendanceRemarks">Remarks</label>
+            <textarea id="attendanceRemarks" placeholder="Add any remarks..."></textarea>
+          </div>
+        </div>
+
+        <div class="btn-row">
+          <button class="btn" onclick="submitAttendance()">Add Attendance</button>
+        </div>
+
+        <div id="attSuccess" class="success">Attendance has been added successfully.</div>
+        <div id="attError" class="error">Please select an assignment, date, start time, end time, and attendance status.</div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="section-title">UGA Feedback / Evaluation</div>
+      <div class="section-body">
+        <div class="section-note">
+          Submit end-of-trimester feedback and evaluate UGA performance.
+        </div>
+
+        <div class="form-grid-4">
+          <div class="field full">
+            <label for="feedbackAssignment">Select UGA Assignment <span class="required">*</span></label>
+            <select id="feedbackAssignment" onchange="fillFeedbackInfo()">
+              <option value="">Select Assignment</option>
+              <option value="aisha-dbms">Aisha Rahman (22-CS-10145) - CSE 3522 - Database Management Systems Lab - Section B</option>
+              <option value="aisha-oop">Aisha Rahman (22-CS-10145) - CSE 1116 - Object Oriented Programming Lab - Section A</option>
+              <option value="bilal-ds">Bilal Khan (22-CS-10178) - CSE 2521 - Data Structures Lab - Section A</option>
+              <option value="maria-pf">Maria Shah (23-CS-10221) - CSE 1520 - Programming Fundamentals Lab - Section C</option>
+            </select>
+            <div class="auto-note">This avoids ambiguity when the same UGA is assigned to more than one course or section.</div>
+          </div>
+
+          <div class="field">
+            <label for="fbCourseCode">Course Code</label>
+            <input type="text" id="fbCourseCode" readonly />
+          </div>
+
+          <div class="field">
+            <label for="fbCourseTitle">Course Title</label>
+            <input type="text" id="fbCourseTitle" readonly />
+          </div>
+
+          <div class="field">
+            <label for="fbSection">Section</label>
+            <input type="text" id="fbSection" readonly />
+          </div>
+
+          <div class="field">
+            <label for="fbTrimester">Trimester <span class="required">*</span></label>
+            <select id="fbTrimester">
+              <option value="">Select Trimester</option>
+              <option>Spring 2026</option>
+              <option>Summer 2026</option>
+              <option>Fall 2026</option>
+            </select>
+          </div>
+
+          <div class="field full">
+            <label>Performance Rating <span class="required">*</span></label>
+            <div class="rating-row">
+              <label><input type="radio" name="rating" value="1 - Poor" /> 1 - Poor</label>
+              <label><input type="radio" name="rating" value="2 - Fair" /> 2 - Fair</label>
+              <label><input type="radio" name="rating" value="3 - Good" /> 3 - Good</label>
+              <label><input type="radio" name="rating" value="4 - Very Good" /> 4 - Very Good</label>
+              <label><input type="radio" name="rating" value="5 - Excellent" /> 5 - Excellent</label>
+            </div>
+          </div>
+
+          <div class="field full">
+            <label for="fbRemarks">Remarks / Recommendation</label>
+            <textarea id="fbRemarks" placeholder="Share your feedback and recommendations for this UGA..."></textarea>
+          </div>
+        </div>
+
+        <div class="btn-row">
+          <button class="btn" onclick="submitFeedback()">Submit Feedback</button>
+        </div>
+
+        <div id="fbSuccess" class="success">UGA feedback has been submitted successfully.</div>
+        <div id="fbError" class="error">Please select an assignment, trimester, and performance rating.</div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="section-title">Send Records to Selection Committee</div>
+      <div class="section-body">
+        <div class="section-note">
+          Forward attendance records, performance ratings, and recommendations to the Selection Committee.
+        </div>
+
+        <div class="summary-row">
+          <div class="summary-item">Total Assigned UGAs: 4</div>
+          <div class="summary-item">Attendance Records Submitted: 35</div>
+          <div class="summary-item">Feedback Submitted: 2</div>
+          <div class="summary-item">Pending Feedback: 2</div>
+        </div>
+
+        <div class="table-scroll">
+          <table>
+            <thead>
+              <tr>
+                <th>Student Name</th>
+                <th>Student ID</th>
+                <th>Course Code</th>
+                <th>Course Title</th>
+                <th class="center">Section</th>
+                <th>Attendance Status Summary</th>
+                <th>Performance Rating</th>
+                <th>Recommendation Status</th>
+              </tr>
+            </thead>
+
+            <tbody>
+              <tr>
+                <td>Aisha Rahman</td>
+                <td>22-CS-10145</td>
+                <td>CSE 3522</td>
+                <td>Database Management Systems Lab</td>
+                <td class="center">B</td>
+                <td>12 Present, 1 Late</td>
+                <td>4 - Very Good</td>
+                <td>Recommended</td>
+              </tr>
+
+              <tr>
+                <td>Aisha Rahman</td>
+                <td>22-CS-10145</td>
+                <td>CSE 1116</td>
+                <td>Object Oriented Programming Lab</td>
+                <td class="center">A</td>
+                <td>8 Present</td>
+                <td>Pending</td>
+                <td>Pending Feedback</td>
+              </tr>
+
+              <tr>
+                <td>Bilal Khan</td>
+                <td>22-CS-10178</td>
+                <td>CSE 2521</td>
+                <td>Data Structures Lab</td>
+                <td class="center">A</td>
+                <td>10 Present, 2 Absent</td>
+                <td>3 - Good</td>
+                <td>Under Review</td>
+              </tr>
+
+              <tr>
+                <td>Maria Shah</td>
+                <td>23-CS-10221</td>
+                <td>CSE 1520</td>
+                <td>Programming Fundamentals Lab</td>
+                <td class="center">C</td>
+                <td>13 Present</td>
+                <td>5 - Excellent</td>
+                <td>Strongly Recommended</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="btn-row">
+          <button class="btn" onclick="sendCommittee()">Send to Selection Committee</button>
+        </div>
+
+        <div id="committeeSuccess" class="success">UGA records have been successfully sent to the Selection Committee.</div>
+      </div>
+    </section>
   </main>
-  <footer class="footer"><div>Powered by</div><div><strong>Edusoft Consultants Ltd</strong></div><div><strong>Institutional Quality Assurance Cell, UIU</strong></div><div>Copyright © 2016 - 2018 Edusoft Consultants Ltd. All rights reserved.</div></footer>
+
+  <footer class="footer">
+    <div>Powered by</div>
+    <div><strong>Edusoft Consultants Ltd</strong></div>
+    <div><strong>Institutional Quality Assurance Cell, UIU</strong></div>
+    <div>Copyright © 2016 - 2018 Edusoft Consultants Ltd. All rights reserved.</div>
+  </footer>
 
   <div class="modal-overlay" id="messageModal">
     <div class="modal">
-      <div class="modal-title">Message Assigned UGA <span class="close-x" id="closeModal">✕</span></div>
+      <div class="modal-title">
+        Send Message to UGA
+        <span class="close-x" onclick="closeMessageModal()">X</span>
+      </div>
+
       <div class="modal-body">
-        <form id="modalMessageForm">
-          <div class="modal-row"><label>Selected UGA</label><input id="modalStudent" type="text" readonly></div>
-          <div class="form-grid-3">
-            <div class="field"><label>Course Code</label><input id="modalCode" type="text" readonly></div>
-            <div class="field"><label>Course Title</label><input id="modalTitle" type="text" readonly></div>
-            <div class="field"><label>Section</label><input id="modalSection" type="text" readonly></div>
+        <div class="modal-row">
+          <strong>Selected Assignment:</strong>
+          <span id="modalAssignmentText">Not selected</span>
+        </div>
+
+        <div class="form-grid-3">
+          <div class="field">
+            <label>Course Code</label>
+            <input type="text" id="modalCourseCode" readonly />
           </div>
-          <div class="modal-row" style="margin-top:10px"><label>Message Subject <span class="required">*</span></label><input type="text" required placeholder="Enter message subject"></div>
-          <div class="modal-row"><label>Message Body <span class="required">*</span></label><textarea required placeholder="Write your message to the selected UGA..."></textarea></div>
-          <div class="small-note">Messages will be delivered through UCAM notification and email.</div>
-          <div class="modal-actions"><button type="button" class="btn btn-cancel" id="cancelModal">Cancel</button><button type="submit" class="btn">Send Message</button></div>
-          <div class="success">Message has been sent successfully.</div><div class="error">Please fill message subject and body.</div>
-        </form>
+
+          <div class="field">
+            <label>Course Title</label>
+            <input type="text" id="modalCourseTitle" readonly />
+          </div>
+
+          <div class="field">
+            <label>Section</label>
+            <input type="text" id="modalSection" readonly />
+          </div>
+
+          <div class="field full">
+            <label for="messageSubject">Message Subject <span class="required">*</span></label>
+            <input type="text" id="messageSubject" placeholder="Enter message subject" />
+          </div>
+
+          <div class="field full">
+            <label for="messageBody">Message Body <span class="required">*</span></label>
+            <textarea id="messageBody" placeholder="Write your message to the selected UGA..."></textarea>
+          </div>
+        </div>
+
+        <div class="small-note">
+          Messages will be delivered through UCAM notification and email.
+        </div>
+
+        <div id="msgError" class="error">Please enter both message subject and message body.</div>
+        <div id="msgSuccess" class="success">Message has been sent successfully.</div>
+
+        <div class="modal-actions">
+          <button class="btn btn-cancel" onclick="closeMessageModal()">Cancel</button>
+          <button class="btn" onclick="sendMessage()">Send Message</button>
+        </div>
       </div>
     </div>
   </div>
 
   <script>
-    const ugaData={
-      'aisha-dbms':{code:'CSE 3522',title:'Database Management Systems Lab',section:'B'},
-      'aisha-oop':{code:'CSE 1116',title:'Object Oriented Programming Lab',section:'A'},
-      'bilal-ds':{code:'CSE 2521',title:'Data Structures Lab',section:'A'},
-      'maria-pf':{code:'CSE 1520',title:'Programming Fundamentals Lab',section:'C'}
+    const assignments = {
+      "aisha-dbms": {
+        student: "Aisha Rahman",
+        id: "22-CS-10145",
+        code: "CSE 3522",
+        title: "Database Management Systems Lab",
+        section: "B"
+      },
+      "aisha-oop": {
+        student: "Aisha Rahman",
+        id: "22-CS-10145",
+        code: "CSE 1116",
+        title: "Object Oriented Programming Lab",
+        section: "A"
+      },
+      "bilal-ds": {
+        student: "Bilal Khan",
+        id: "22-CS-10178",
+        code: "CSE 2521",
+        title: "Data Structures Lab",
+        section: "A"
+      },
+      "maria-pf": {
+        student: "Maria Shah",
+        id: "23-CS-10221",
+        code: "CSE 1520",
+        title: "Programming Fundamentals Lab",
+        section: "C"
+      }
     };
-    function autofill(selectId, codeId, titleId, sectionId){
-      const select=document.getElementById(selectId);
-      select.addEventListener('change',function(){
-        const data=ugaData[this.value]||{code:'',title:'',section:''};
-        document.getElementById(codeId).value=data.code;
-        document.getElementById(titleId).value=data.title;
-        document.getElementById(sectionId).value=data.section;
-      });
+
+    function fillAttendanceInfo() {
+      const key = document.getElementById("attendanceAssignment").value;
+      const item = assignments[key] || {};
+
+      document.getElementById("attCourseCode").value = item.code || "";
+      document.getElementById("attCourseTitle").value = item.title || "";
+      document.getElementById("attSection").value = item.section || "";
     }
-    autofill('attUga','attCode','attTitle','attSection');
-    autofill('fbUga','fbCode','fbTitle','fbSection');
 
-    function attachValidation(formId){
-      const form=document.getElementById(formId); if(!form) return;
-      form.addEventListener('submit',function(e){
-        e.preventDefault();
-        const success=form.querySelector('.success');
-        const error=form.querySelector('.error');
-        if(form.checkValidity()){
-          success.style.display='block'; error.style.display='none';
-        }else{
-          success.style.display='none'; error.style.display='block'; form.reportValidity();
-        }
-      });
+    function fillFeedbackInfo() {
+      const key = document.getElementById("feedbackAssignment").value;
+      const item = assignments[key] || {};
+
+      document.getElementById("fbCourseCode").value = item.code || "";
+      document.getElementById("fbCourseTitle").value = item.title || "";
+      document.getElementById("fbSection").value = item.section || "";
     }
-    attachValidation('attendanceForm');
-    attachValidation('feedbackForm');
-    attachValidation('modalMessageForm');
 
-    document.getElementById('committeeBtn').addEventListener('click',function(){
-      document.getElementById('committeeSuccess').style.display='block';
-    });
+    function submitAttendance() {
+      const ok =
+        document.getElementById("attendanceAssignment").value &&
+        document.getElementById("workingDate").value &&
+        document.getElementById("startTime").value &&
+        document.getElementById("endTime").value &&
+        document.getElementById("attendanceStatus").value;
 
-    const modal=document.getElementById('messageModal');
-    document.querySelectorAll('.message-btn').forEach(btn=>{
-      btn.addEventListener('click',function(){
-        document.getElementById('modalStudent').value=this.dataset.name+' ('+this.dataset.id+')';
-        document.getElementById('modalCode').value=this.dataset.code;
-        document.getElementById('modalTitle').value=this.dataset.title;
-        document.getElementById('modalSection').value=this.dataset.section;
-        modal.style.display='flex';
-      });
-    });
-    function closeModal(){modal.style.display='none';document.getElementById('modalMessageForm').reset();document.querySelector('#modalMessageForm .success').style.display='none';document.querySelector('#modalMessageForm .error').style.display='none';}
-    document.getElementById('closeModal').addEventListener('click',closeModal);
-    document.getElementById('cancelModal').addEventListener('click',closeModal);
-    modal.addEventListener('click',function(e){if(e.target===modal) closeModal();});
+      document.getElementById("attSuccess").style.display = ok ? "block" : "none";
+      document.getElementById("attError").style.display = ok ? "none" : "block";
+    }
+
+    function submitFeedback() {
+      const rating = document.querySelector('input[name="rating"]:checked');
+
+      const ok =
+        document.getElementById("feedbackAssignment").value &&
+        document.getElementById("fbTrimester").value &&
+        rating;
+
+      document.getElementById("fbSuccess").style.display = ok ? "block" : "none";
+      document.getElementById("fbError").style.display = ok ? "none" : "block";
+    }
+
+    function sendCommittee() {
+      document.getElementById("committeeSuccess").style.display = "block";
+    }
+
+    function openMessageModal(student, id, code, title, section) {
+      document.getElementById("modalAssignmentText").textContent =
+        student + " (" + id + ") - " + code + " - " + title + " - Section " + section;
+
+      document.getElementById("modalCourseCode").value = code;
+      document.getElementById("modalCourseTitle").value = title;
+      document.getElementById("modalSection").value = section;
+
+      document.getElementById("messageSubject").value = "";
+      document.getElementById("messageBody").value = "";
+      document.getElementById("msgError").style.display = "none";
+      document.getElementById("msgSuccess").style.display = "none";
+
+      document.getElementById("messageModal").style.display = "flex";
+    }
+
+    function closeMessageModal() {
+      document.getElementById("messageModal").style.display = "none";
+    }
+
+    function sendMessage() {
+      const subject = document.getElementById("messageSubject").value.trim();
+      const body = document.getElementById("messageBody").value.trim();
+
+      const ok = subject && body;
+
+      document.getElementById("msgError").style.display = ok ? "none" : "block";
+      document.getElementById("msgSuccess").style.display = ok ? "block" : "none";
+    }
   </script>
 </body>
 </html>
